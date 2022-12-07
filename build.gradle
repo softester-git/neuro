@@ -18,3 +18,9 @@ dependencies {
 jar {
     manifest.attributes("Main-Class": mainClassName);
 }
+
+task runTest (type: JavaExec) {
+    description = "Neuro testing"
+    mainClass = 'at.example.Main'
+    classpath = sourceSets.main.runtimeClasspath
+}

@@ -1,4 +1,4 @@
-package com.example;
+package at.example;
 
 import org.apache.log4j.Logger;
 
