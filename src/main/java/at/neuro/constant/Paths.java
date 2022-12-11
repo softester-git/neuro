@@ -1,4 +1,4 @@
-package at.neuro.constants;
+package at.neuro.constant;
 
 import java.io.File;
 
