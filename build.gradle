@@ -1,8 +1,6 @@
 apply plugin: "java"
 apply plugin: "application"
 
-mainClassName = "at.neuro.Neuro"
-
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
@@ -20,10 +18,24 @@ jar {
 
 task runTest (type: JavaExec) {
     description = "Neuro testing"
-    mainClass = mainClassName
+    mainClass = "at.neuro.Neuro"
     classpath = sourceSets.main.runtimeClasspath
 }
 
 task runTestJar(type: JavaExec) {
     classpath = files(tasks.jar)
+}
+
+task runWithJavaExec(type: JavaExec) {
+    group = "at.neuro"
+    description = "Run the main class with JavaExecTask"
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = "at.neuro.Neuro"
+}
+
+task runWithExec(type: Exec) {
+    dependsOn build
+    group = "at.neuro"
+    description = "Run the main class with ExecTask"
+    commandLine "java", "-classpath", sourceSets.main.runtimeClasspath.getAsPath(), "at.neuro.Neuro"
 }

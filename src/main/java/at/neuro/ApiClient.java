@@ -30,6 +30,7 @@ public class ApiClient {
     public static void apiRequest() throws URISyntaxException {
         request = HttpRequest.newBuilder()
                 .uri(new URI(uri))
+                .header("X-MBX-APIKEY", "SahJy9uKa6Fl274nLXvFCGJ8oSdcozamwH1rroztDKVFBnadrjmJtr6Cq4gOqzT5")
                 .GET()
                 .build();
     }
