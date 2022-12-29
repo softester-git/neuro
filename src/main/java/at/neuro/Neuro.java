@@ -1,24 +1,15 @@
 package at.neuro;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
-import static at.neuro.ApiClient.apiRequest;
 
 public class Neuro {
-    //private static BinanceApi api = new BinanceApi();
-    public static void main(String[] args) throws URISyntaxException {
-        // init
+    public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
         String baseUrl = "https://www.binance.com/api/";
-        apiRequest(baseUrl);
+        ApiClient.uri = baseUrl;
+        ApiClient.apiInit();
 
-
-        //getAccountInfo();
-        //BigDecimal asset = api.pricesMap().get("TRXUSDT");
-        //System.out.println(System.getenv());
-        //System.out.println(api.myTrades(BinanceSymbol.valueOf("TRXUSDT")));
-
-    }
-
-    public static void getAccountInfo() {
-        System.out.println("***");
+        System.out.println(ApiClient.statusCode);
+        System.out.println(ApiClient.body);
     }
 }
