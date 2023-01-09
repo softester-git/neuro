@@ -63,7 +63,6 @@ public class Plot {
             PlotStyle styleVal0 = new PlotStyle();
             styleVal0.setStyle(Style.LINES);
             styleVal0.setLineType(NamedPlotColor.RED);
-            System.out.println(values0);
             DataSetPlot setVal0 = new DataSetPlot(values0);
             setVal0.setPlotStyle(styleVal0);
             setVal0.setTitle(legend);

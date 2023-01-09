@@ -5,6 +5,9 @@ import at.neuro.libs.Klines;
 import org.json.JSONArray;
 import org.ta4j.core.BarSeries;
 import org.ta4j.core.BaseBarSeriesBuilder;
+import org.ta4j.core.indicators.SMAIndicator;
+import org.ta4j.core.indicators.helpers.ClosePriceIndicator;
+import org.ta4j.core.indicators.helpers.OpenPriceIndicator;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -46,6 +49,9 @@ public class Neuro {
 
         }
 
+        OpenPriceIndicator openPrice = new OpenPriceIndicator(series);
+        SMAIndicator shortSma = new SMAIndicator(openPrice, 5);
+        System.out.println(shortSma.getValue(99).doubleValue());
         saveImage();
 
         //testWork();
