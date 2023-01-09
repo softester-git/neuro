@@ -1,22 +1,20 @@
 package at.neuro;
 
-import netscape.javascript.JSObject;
+import at.neuro.libs.ApiClient;
+import at.neuro.libs.Klines;
 import org.json.JSONArray;
-import org.json.JSONObject;
+import org.ta4j.core.BarSeries;
+import org.ta4j.core.BaseBarSeriesBuilder;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URISyntaxException;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.ArrayList;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Date;
-import java.util.List;
+import java.util.Locale;
 
-import static at.neuro.TestFramework.testWork;
-import static at.neuro.constant.Urls.URLDATA;
+import static at.neuro.libs.Image.saveImage;
 
 public class Neuro {
     public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
@@ -26,37 +24,29 @@ public class Neuro {
         Klines.klinesInit();
 
         JSONArray ja = new JSONArray(ApiClient.body);
-        double[][] val0 = new double[ja.length()][2];
 
-//        String[][] val1 = new String[ja.length()][2];
+        BarSeries series = new BaseBarSeriesBuilder().withName("AXP_Stock").build();
+        for (int i = 0; i < ja.length(); i++) {
 
-//        double[] xx = new double[ja.length()];
-//        double[] yy = new double[ja.length()];
-
-        double max0 = 0;
-        double min0 = 1000000;
-
-        for (int i=0; i<ja.length(); i++) {
             JSONArray jElem = new JSONArray(ja.get(i).toString());
 
-//            xx[i] = Double.parseDouble(String.valueOf(i));
-//            yy[i] = Double.parseDouble(jElem.get(1).toString());
+            String timestamp = jElem.get(0).toString();
+            long epochMilli = Long.parseLong(timestamp);
+            Instant instant = Instant.ofEpochMilli(epochMilli);
+            ZonedDateTime zdt = instant.atZone(ZoneId.systemDefault());
 
+            System.out.println(jElem.get(1));
+            System.out.println(jElem.get(2));
+            System.out.println(jElem.get(3));
+            System.out.println(jElem.get(4));
+            System.out.println(jElem.get(5));
+            System.out.println("---");
 
-            val0[i][0] = Double.parseDouble(String.valueOf(i));
+            series.addBar(zdt, Double.parseDouble(jElem.get(1).toString()), Double.parseDouble(jElem.get(2).toString()), Double.parseDouble(jElem.get(3).toString()), Double.parseDouble(jElem.get(4).toString()), Double.parseDouble(jElem.get(5).toString()));
 
-            val0[i][1] = Double.parseDouble(jElem.get(1).toString());
-
-            if (val0[i][1] > max0) max0 = val0[i][1];
-            if (val0[i][1] < min0) min0 = val0[i][1];
         }
-        Plot.values0 = val0;
-//        Plot.xx = xx;
-//        Plot.yy = yy;
-        Plot.max0 = max0;
-        Plot.min0 = min0;
-        Plot.legend = Klines.symbol + " " + Klines.interval;
-        Plot.plotInit();
+
+        saveImage();
 
         //testWork();
     }

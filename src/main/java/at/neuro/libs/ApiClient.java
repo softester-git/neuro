@@ -1,4 +1,4 @@
-package at.neuro;
+package at.neuro.libs;
 
 import java.io.IOException;
 import java.net.URI;

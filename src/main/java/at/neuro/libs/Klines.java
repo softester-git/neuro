@@ -1,4 +1,6 @@
-package at.neuro;
+package at.neuro.libs;
+
+import at.neuro.libs.ApiClient;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
