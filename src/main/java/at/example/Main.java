@@ -1,6 +1,5 @@
 package at.example;
 
-import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

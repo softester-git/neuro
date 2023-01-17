@@ -1,69 +1,59 @@
 package at.neuro;
 
-import com.panayotis.gnuplot.JavaPlot;
-import com.panayotis.gnuplot.plot.DataSetPlot;
-import com.panayotis.gnuplot.style.NamedPlotColor;
-import com.panayotis.gnuplot.style.PlotStyle;
-import com.panayotis.gnuplot.style.Style;
-import com.panayotis.gnuplot.terminal.ImageTerminal;
+//import org.neuroph.core.learning.DataSet;
+//import org.neuroph.core.learning.DataSetRow;
 
-import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import org.neuroph.core.NeuralNetwork;
+import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
+import org.neuroph.nnet.Perceptron;
+
+/**
+ * This sample shows how to create, train, save and load simple Perceptron neural network
+ */
 public class TestFramework {
-    public static void testWork () {
-        double[][] values = new double[3][2];
-        values[0][0] = 0.1;
-        values[0][1] = 0.3;
-        values[1][0] = 0.4;
-        values[1][1] = 0.3;
-        values[2][0] = 0.5;
-        values[2][1] = 0.5;
-        double[][] values2 = new double[3][2];
-        values2[0][0] = 0.2;
-        values2[0][1] = 0.0;
-        values2[1][0] = 0.7;
-        values2[1][1] = 0.1;
-        values2[2][0] = 0.6;
-        values2[2][1] = 0.5;
-        PlotStyle styleDeleted = new PlotStyle();
-        styleDeleted.setStyle(Style.POINTS);
-        styleDeleted.setLineType(NamedPlotColor.GRAY80);
-        PlotStyle styleExist = new PlotStyle();
-        styleExist.setStyle(Style.POINTS);
-        styleExist.setLineType(NamedPlotColor.BLACK);
-        DataSetPlot setDeleted = new DataSetPlot(values);
-        setDeleted.setPlotStyle(styleDeleted);
-        setDeleted.setTitle("deleted EMs");
-        DataSetPlot setExist = new DataSetPlot(values2);
-        setExist.setPlotStyle(styleExist);
-        setExist.setTitle("remaining EMs");
-        ImageTerminal png = new ImageTerminal();
-        File file = new File("/home/sash/plot.png");
-        try {
-            file.createNewFile();
-            png.processOutput(new FileInputStream(file));
-        } catch (FileNotFoundException ex) {
-            System.err.print(ex);
-        } catch (IOException ex) {
-            System.err.print(ex);
-        }
-        JavaPlot p = new JavaPlot();
-        p.setTerminal(png);
-        p.getAxis("x").setLabel("yield");
-        p.getAxis("y").setLabel("biomass");
-        p.getAxis("x").setBoundaries(0.0, 1.0);
-        p.getAxis("y").setBoundaries(0.0, 1.0);
-        p.addPlot(setDeleted);
-        p.addPlot(setExist);
-        p.setTitle("remaining EMs");
-        p.plot();
-        try {
-            ImageIO.write(png.getImage(), "png", file);
-        } catch (IOException ex) {
-            System.err.print(ex);
-        }
+
+    public static void debugRun() {
+
+// create new perceptron network
+        NeuralNetwork neuralNetwork = new Perceptron(2, 1);
+        DataSet trainingSet = new DataSet(2, 1);
+
+        trainingSet.add(new DataSetRow (new double[]{0, 0}, new double[]{0}));
+        trainingSet.add(new DataSetRow (new double[]{0, 1}, new double[]{0}));
+        trainingSet.add(new DataSetRow (new double[]{1, 0}, new double[]{0}));
+        trainingSet.add(new DataSetRow (new double[]{1, 1}, new double[]{1}));
+
+        neuralNetwork.learn(trainingSet);
+
+        neuralNetwork.save("first_perceptron.nnet");
+
+//        // test perceptron
+//        System.out.println("Testing trained perceptron");
+//        testNeuralNetwork(myPerceptron, trainingSet);
+//
+//        // save trained perceptron
+//        myPerceptron.save("mySamplePerceptron.nnet");
+//
+//        // load saved neural network
+//        NeuralNetwork loadedPerceptron = NeuralNetwork.load("mySamplePerceptron.nnet");
+//
+//        // test loaded neural network
+//        System.out.println("Testing loaded perceptron");
+//        testNeuralNetwork(loadedPerceptron, trainingSet);
+//
     }
+
+//    public static void testNeuralNetwork(NeuralNetwork nnet, DataSet testSet) {
+//
+//        for(DataSetRow dataRow : testSet.getRows()) {
+//            nnet.setInput(dataRow.getInput());
+//            nnet.calculate();
+//            double[] networkOutput = nnet.getOutput();
+//            System.out.print("Input: " + Arrays.toString(dataRow.getInput()));
+//            System.out.println(" Output: " + Arrays.toString(networkOutput));
+//        }
+//
+//    }
+
 }
