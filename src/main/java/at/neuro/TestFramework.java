@@ -1,12 +1,11 @@
 package at.neuro;
 
-//import org.neuroph.core.learning.DataSet;
-//import org.neuroph.core.learning.DataSetRow;
-
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
 import org.neuroph.nnet.Perceptron;
+
+import java.util.Arrays;
 
 /**
  * This sample shows how to create, train, save and load simple Perceptron neural network
@@ -28,9 +27,17 @@ public class TestFramework {
 
         neuralNetwork.save("first_perceptron.nnet");
 
-//        // test perceptron
-//        System.out.println("Testing trained perceptron");
-//        testNeuralNetwork(myPerceptron, trainingSet);
+        System.out.println("Testing trained perceptron");
+
+        for (DataSetRow dataRow : trainingSet.getRows()) {
+            neuralNetwork.setInput(dataRow.getInput());
+            neuralNetwork.calculate();
+            double[ ] networkOutput = neuralNetwork.getOutput();
+            System.out.print("Input: " + Arrays.toString(dataRow.getInput()) );
+            System.out.println(" Output: " + Arrays.toString(networkOutput) );
+        }
+
+        //testNeuralNetwork(neuralNetwork, trainingSet);
 //
 //        // save trained perceptron
 //        myPerceptron.save("mySamplePerceptron.nnet");
